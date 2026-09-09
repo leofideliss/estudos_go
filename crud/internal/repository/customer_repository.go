@@ -46,3 +46,38 @@ func (cr *CustomerRepository) findById(id int) (model.Customer, error) {
 
 	return c, nil
 }
+
+func (cr *CustomerRepository) addCustomer(c model.Customer) (model.Customer, error) {
+	cr.mu.Lock()
+	defer cr.mu.Unlock()
+
+	c.ID = cr.nextID
+	cr.customers[c.ID] = c
+	cr.nextID++
+
+	return c, nil
+}
+
+func (cr *CustomerRepository) updateCustomer(c model.Customer, id int) (bool, error) {
+	cr.mu.Lock()
+	defer cr.mu.Unlock()
+
+	if _, ok := cr.customers[id]; !ok {
+		return false, ErrorNotFound
+	}
+	c.ID = id
+	cr.customers[id] = c
+	return true, nil
+}
+
+func (cr *CustomerRepository) deleteCustomer(id int) (bool, error) {
+	cr.mu.Lock()
+	defer cr.mu.Unlock()
+
+	if _, ok := cr.customers[id]; !ok {
+		return false, ErrorNotFound
+	}
+
+	delete(cr.customers, id)
+	return true, nil
+}

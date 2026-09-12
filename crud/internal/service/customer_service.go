@@ -6,11 +6,11 @@ import (
 )
 
 type CustomerRepository interface {
-	findAll() ([]model.Customer, error)
-	findById(id int) (model.Customer, error)
-	addCustomer(c model.Customer) (model.Customer, error)
-	updateCustomer(c model.Customer, id int) (bool, error)
-	deleteCustomer(id int) (bool, error)
+	List() ([]model.Customer, error)
+	GetById(id int) (model.Customer, error)
+	Create(c model.Customer) (model.Customer, error)
+	Update(c model.Customer, id int) (bool, error)
+	Delete(id int) (bool, error)
 }
 
 var ErrInputNameEmail = errors.New("Name e email são obrigatórios")
@@ -24,18 +24,18 @@ func NewCustomerService(repo CustomerRepository) *CustomerService {
 }
 
 func (s *CustomerService) List() ([]model.Customer, error) {
-	return s.repo.findAll()
+	return s.repo.List()
 }
 
-func (s *CustomerService) FindById(id int) (model.Customer, error) {
-	return s.repo.findById(id)
+func (s *CustomerService) GetById(id int) (model.Customer, error) {
+	return s.repo.GetById(id)
 }
 
 func (s *CustomerService) Create(c model.Customer) (model.Customer, error) {
 	if c.Email == "" || c.Name == "" {
 		return model.Customer{}, ErrInputNameEmail
 	}
-	return s.repo.addCustomer(c)
+	return s.repo.Create(c)
 }
 
 func (s *CustomerService) Update(c model.Customer, id int) (bool, error) {
@@ -43,9 +43,9 @@ func (s *CustomerService) Update(c model.Customer, id int) (bool, error) {
 		return false, ErrInputNameEmail
 	}
 
-	return s.repo.updateCustomer(c, id)
+	return s.repo.Update(c, id)
 }
 
 func (s *CustomerService) Delete(id int) (bool, error) {
-	return s.repo.deleteCustomer(id)
+	return s.repo.Delete(id)
 }

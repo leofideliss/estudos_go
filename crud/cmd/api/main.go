@@ -1,14 +1,26 @@
 package main
 
 import (
-	"fmt"
+	"crud/internal/handler"
+	"crud/internal/repository"
+	"crud/internal/service"
+	"log"
 	"net/http"
 )
 
 func main() {
-	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "pong")
-	})
+	// http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
+	// 	fmt.Fprintln(w, "pong")
+	// })
 
-	http.ListenAndServe(":8039", nil)
+	mux := http.NewServeMux()
+
+	customerRepo := repository.NewCustomerRepository()
+	custoemerService := service.NewCustomerService(customerRepo)
+	customerHandler := handler.NewCustomeHandler(custoemerService)
+
+	customerHandler.RegisterRoutes(mux)
+
+	log.Println("rodando em :8080")
+	log.Fatal(http.ListenAndServe(":8080", mux))
 }

@@ -22,7 +22,7 @@ func NewCustomerRepository() *CustomerRepository {
 	}
 }
 
-func (cr *CustomerRepository) findAll() ([]model.Customer, error) {
+func (cr *CustomerRepository) List() ([]model.Customer, error) {
 	cr.mu.Lock()
 	defer cr.mu.Unlock()
 
@@ -35,7 +35,7 @@ func (cr *CustomerRepository) findAll() ([]model.Customer, error) {
 	return list, nil
 }
 
-func (cr *CustomerRepository) findById(id int) (model.Customer, error) {
+func (cr *CustomerRepository) GetById(id int) (model.Customer, error) {
 	cr.mu.Lock()
 	defer cr.mu.Unlock()
 
@@ -47,7 +47,7 @@ func (cr *CustomerRepository) findById(id int) (model.Customer, error) {
 	return c, nil
 }
 
-func (cr *CustomerRepository) addCustomer(c model.Customer) (model.Customer, error) {
+func (cr *CustomerRepository) Create(c model.Customer) (model.Customer, error) {
 	cr.mu.Lock()
 	defer cr.mu.Unlock()
 
@@ -58,7 +58,7 @@ func (cr *CustomerRepository) addCustomer(c model.Customer) (model.Customer, err
 	return c, nil
 }
 
-func (cr *CustomerRepository) updateCustomer(c model.Customer, id int) (bool, error) {
+func (cr *CustomerRepository) Update(c model.Customer, id int) (bool, error) {
 	cr.mu.Lock()
 	defer cr.mu.Unlock()
 
@@ -70,7 +70,7 @@ func (cr *CustomerRepository) updateCustomer(c model.Customer, id int) (bool, er
 	return true, nil
 }
 
-func (cr *CustomerRepository) deleteCustomer(id int) (bool, error) {
+func (cr *CustomerRepository) Delete(id int) (bool, error) {
 	cr.mu.Lock()
 	defer cr.mu.Unlock()
 

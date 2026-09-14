@@ -70,7 +70,7 @@ func (h *CustomerHanlder) GetById(w http.ResponseWriter, r *http.Request) {
 
 	customer, err := h.service.GetById(id)
 	if err != nil {
-		if errors.Is(err, repository.ErrorNotFound) {
+		if errors.Is(err, repository.ErrNotFound) {
 			WriteError(w, http.StatusBadGateway, err.Error())
 			return
 		}

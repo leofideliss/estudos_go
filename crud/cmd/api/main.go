@@ -2,7 +2,7 @@ package main
 
 import (
 	"crud/internal/handler"
-	"crud/internal/repository"
+	"crud/internal/memory"
 	"crud/internal/service"
 	"fmt"
 	"log"
@@ -15,7 +15,7 @@ func main() {
 		fmt.Fprintln(w, "pong")
 	})
 
-	customerRepo := repository.NewCustomerRepository()
+	customerRepo := memory.NewCustomerRepository()
 	custoemerService := service.NewCustomerService(customerRepo)
 	customerHandler := handler.NewCustomeHandler(custoemerService)
 

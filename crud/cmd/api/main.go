@@ -4,16 +4,16 @@ import (
 	"crud/internal/handler"
 	"crud/internal/repository"
 	"crud/internal/service"
+	"fmt"
 	"log"
 	"net/http"
 )
 
 func main() {
-	// http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-	// 	fmt.Fprintln(w, "pong")
-	// })
-
 	mux := http.NewServeMux()
+	mux.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "pong")
+	})
 
 	customerRepo := repository.NewCustomerRepository()
 	custoemerService := service.NewCustomerService(customerRepo)
